@@ -1,0 +1,11 @@
+services:
+  go:
+    build:
+      context: .
+      target: final
+    environment:
+      - APP_CONTAINER_PORT=${APP_CONTAINER_PORT}
+    ports:
+      - "${APP_LOCAL_PORT}:${APP_CONTAINER_PORT}"
+
+
