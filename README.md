@@ -1,2 +1,2 @@
-# english-vocabularies-api
-Rest API managing English vocabularies.
+# ielts-vocabularies-api
+Rest API managing English vocabularies for IELTS.
