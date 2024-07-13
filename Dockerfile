@@ -8,7 +8,7 @@ WORKDIR /src
 # Leverage bind mounts to go.sum and go.mod to avoid having to copy them into
 # the container.
 RUN --mount=type=cache,target=/go/pkg/mod/ \
-    #--mount=type=bind,source=go.sum,target=go.sum \
+    --mount=type=bind,source=go.sum,target=go.sum \
     --mount=type=bind,source=go.mod,target=go.mod \
     go mod download -x
 
