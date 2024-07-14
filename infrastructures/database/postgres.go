@@ -14,23 +14,15 @@ type Gorm struct {
 	Db *gorm.DB
 }
 
-type Test struct {
-	gorm.Model
-	Message string
-}
-
-func Open(ctx context.Context, pgConfig *infrastructures.PgConfig) {
+func Open(ctx context.Context, pgConfig *infrastructures.PgConfig) (*Gorm, error) {
 	dataSourceName := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		pgConfig.Host, pgConfig.Port, pgConfig.User, pgConfig.PassWord, pgConfig.DbName, pgConfig.Sslmode)
 	db, err := gorm.Open(postgres.Open(dataSourceName), &gorm.Config{})
 	if err != nil {
 		log.Printf("Failed to open postgresql: %v", err)
+		return nil, err
 	}
 
-	db.AutoMigrate(&Test{})
-	db.Create(
-		&Test{
-			Message: "test record",
-		},
-	)
+	db.AutoMigrate(&Vocabulary{})
+	return &Gorm{Db: db}, nil
 }
