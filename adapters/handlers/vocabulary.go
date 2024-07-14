@@ -21,17 +21,18 @@ func (h *VocabHandler) AddNewVocabulary(w http.ResponseWriter, r *http.Request) 
 	//Decode request body
 	var vocabReq dto.VocabDto
 	if err := json.NewDecoder(r.Body).Decode(&vocabReq); err != nil {
-		err = errors.New(fmt.Sprintf("failed to decode request body. %v", err))
 		//Write error response.
-		h.VocabInputPort.AddNewVocabulary(ctx, domains.Vocabulary{}, w, err)
+		err = errors.New(fmt.Sprintf("failed to decode request body. %v", err))
+		h.VocabInputPort.AddNewVocabulary(ctx, &domains.Vocabulary{}, w, err)
 		return
 	}
 
 	//Call services's method through inputport interface
-	vocabulary := dto.ToDomain(vocabReq)
+	vocabulary := dto.ToDomain(&vocabReq)
 	h.VocabInputPort.AddNewVocabulary(ctx, vocabulary, w, nil)
 }
 
 func (h *VocabHandler) FetchVocabularyById(w http.ResponseWriter, r *http.Request) {
+	//Call services's method through inputport interface
 	h.VocabInputPort.FetchVocabularyById(r.Context(), r.PathValue("id"), w)
 }

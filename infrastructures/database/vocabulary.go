@@ -18,7 +18,7 @@ type Vocabulary struct {
 }
 
 // Insert new vocabulary data
-func (g *Gorm) InsertNewVocabulary(ctx context.Context, vocabDto dto.VocabDto) (dto.VocabIdDto, error) {
+func (g *Gorm) InsertNewVocabulary(ctx context.Context, vocabDto *dto.VocabDto) (uint, error) {
 	vocabulary := &Vocabulary{
 		Title:        vocabDto.Title,
 		Definition:   vocabDto.Definition,
@@ -28,21 +28,18 @@ func (g *Gorm) InsertNewVocabulary(ctx context.Context, vocabDto dto.VocabDto) (
 	}
 
 	result := g.Db.Create(vocabulary)
-	vocabIdDto := dto.VocabIdDto{}
 	if result.Error != nil {
 		log.Printf("failed to insert new vocabulary: %v", result.Error)
-		return vocabIdDto, result.Error
+		return 0, result.Error
+	} else {
+		return vocabulary.ID, nil
 	}
-
-	vocabIdDto.VocabularyID = vocabulary.ID
-
-	return vocabIdDto, nil
 }
 
-func (g *Gorm) SelectVocabularyById(ctx context.Context, vocabularyID uint) (dto.VocabDto, error) {
+func (g *Gorm) SelectVocabularyById(ctx context.Context, vocabularyID uint) (*dto.VocabDto, error) {
 	selected := Vocabulary{}
 	result := g.Db.First(&selected, vocabularyID)
-	vocabDto := dto.VocabDto{}
+	vocabDto := &dto.VocabDto{}
 	if result.Error != nil {
 		log.Printf("failed to select a vocabulary by ID: %v", result.Error)
 		return vocabDto, result.Error
