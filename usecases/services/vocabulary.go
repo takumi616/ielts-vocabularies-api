@@ -14,7 +14,7 @@ type VocabService struct {
 	ErrOutputPort   ports.ErrOutputPort
 }
 
-func (s *VocabService) AddNewVocabulary(ctx context.Context, vocab domains.Vocabulary, w http.ResponseWriter, err error) {
+func (s *VocabService) AddNewVocabulary(ctx context.Context, vocab *domains.Vocabulary, w http.ResponseWriter, err error) {
 	//check if error is found in handlers
 	if err != nil {
 		s.ErrOutputPort.WriteErrResp(ctx, err, w, http.StatusBadRequest)

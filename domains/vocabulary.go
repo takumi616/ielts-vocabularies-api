@@ -12,6 +12,6 @@ type Vocabulary struct {
 }
 
 type VocabRepository interface {
-	AddNewVocabulary(ctx context.Context, vocab Vocabulary) (uint, error)
-	FetchVocabularyById(ctx context.Context, id string) (Vocabulary, error)
+	AddNewVocabulary(ctx context.Context, vocab *Vocabulary) (uint, error)
+	FetchVocabularyById(ctx context.Context, id string) (*Vocabulary, error)
 }

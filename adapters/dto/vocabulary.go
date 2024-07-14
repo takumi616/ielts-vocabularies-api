@@ -10,8 +10,8 @@ type VocabDto struct {
 	IsMemorized  string `json:"is_memorized"`
 }
 
-func ToDomain(vocabDto VocabDto) domains.Vocabulary {
-	return domains.Vocabulary{
+func ToDomain(vocabDto *VocabDto) *domains.Vocabulary {
+	return &domains.Vocabulary{
 		Title:        vocabDto.Title,
 		Definition:   vocabDto.Definition,
 		Example:      vocabDto.Example,
@@ -20,16 +20,12 @@ func ToDomain(vocabDto VocabDto) domains.Vocabulary {
 	}
 }
 
-func FromDomain(vocabulary domains.Vocabulary) VocabDto {
-	return VocabDto{
+func FromDomain(vocabulary *domains.Vocabulary) *VocabDto {
+	return &VocabDto{
 		Title:        vocabulary.Title,
 		Definition:   vocabulary.Definition,
 		Example:      vocabulary.Example,
 		PartOfSpeech: vocabulary.PartOfSpeech,
 		IsMemorized:  vocabulary.IsMemorized,
 	}
-}
-
-type VocabIdDto struct {
-	VocabularyID uint `json:"vocabulary_id"`
 }
