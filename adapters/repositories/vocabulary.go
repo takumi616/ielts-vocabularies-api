@@ -17,6 +17,7 @@ type VocabRepository struct {
 type VocabPersistence interface {
 	InsertNewVocabulary(ctx context.Context, vocabDto *dto.VocabDto) (uint, error)
 	SelectVocabularyById(ctx context.Context, vocabularyID uint) (*dto.VocabDto, error)
+	UpdateVocabularyById(ctx context.Context, vocabularyID uint, vocabDto *dto.VocabDto) (uint, error)
 }
 
 func (r *VocabRepository) AddNewVocabulary(ctx context.Context, vocabulary *domains.Vocabulary) (uint, error) {
@@ -43,4 +44,18 @@ func (r *VocabRepository) FetchVocabularyById(ctx context.Context, id string) (*
 	}
 
 	return dto.ToDomain(selected), nil
+}
+
+func (r VocabRepository) UpdateVocabularyById(ctx context.Context, id string, vocabulary *domains.Vocabulary) (uint, error) {
+	vocabularyID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Fatalf("failed to convert string id into int type: %v", err)
+	}
+
+	updatedID, err := r.Persistence.UpdateVocabularyById(ctx, uint(vocabularyID), dto.FromDomain(vocabulary))
+	if err != nil {
+		return 0, err
+	} else {
+		return updatedID, nil
+	}
 }

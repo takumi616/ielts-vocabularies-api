@@ -40,3 +40,20 @@ func (s *VocabService) FetchVocabularyById(ctx context.Context, id string, w htt
 	//Write http response
 	s.VocabOutputPort.WriteVocabularyResp(ctx, vocab, w)
 }
+
+func (s *VocabService) UpdateVocabularyById(ctx context.Context, id string, vocab *domains.Vocabulary, w http.ResponseWriter, err error) {
+	//check if error is found in handlers
+	if err != nil {
+		s.ErrOutputPort.WriteErrResp(ctx, err, w, http.StatusBadRequest)
+		return
+	}
+
+	updatedID, err := s.Repo.UpdateVocabularyById(ctx, id, vocab)
+	if err != nil {
+		s.ErrOutputPort.WriteErrResp(ctx, err, w, http.StatusInternalServerError)
+		return
+	}
+
+	//Write http response
+	s.VocabOutputPort.WriteVocabIdResp(ctx, updatedID, w)
+}
