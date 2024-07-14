@@ -24,5 +24,6 @@ func (p *ErrPresenter) WriteErrResp(ctx context.Context, errMsg error, w http.Re
 	if err := json.NewEncoder(w).Encode(errMsgDto); err != nil {
 		log.Printf("failed to write error message using response writer: %v", err)
 		log.Printf("received error message as a parameter is: %v", errMsg)
+		return
 	}
 }
