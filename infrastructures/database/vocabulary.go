@@ -53,3 +53,35 @@ func (g *Gorm) SelectVocabularyById(ctx context.Context, vocabularyID uint) (*dt
 
 	return vocabDto, nil
 }
+
+func (g *Gorm) UpdateVocabularyById(ctx context.Context, vocabularyID uint, vocabDto *dto.VocabDto) (uint, error) {
+	//convert dto into db model
+	vocabulary := &Vocabulary{
+		Title:        vocabDto.Title,
+		Definition:   vocabDto.Definition,
+		Example:      vocabDto.Example,
+		PartOfSpeech: vocabDto.PartOfSpeech,
+		IsMemorized:  vocabDto.IsMemorized,
+	}
+
+	selected := Vocabulary{}
+	result := g.Db.First(&selected, vocabularyID)
+	if result.Error != nil {
+		log.Printf("failed to select a record that is going to update: %v", result.Error)
+		return 0, result.Error
+	}
+
+	selected.Title = vocabulary.Title
+	selected.Definition = vocabulary.Definition
+	selected.Example = vocabulary.Example
+	selected.PartOfSpeech = vocabulary.PartOfSpeech
+	selected.IsMemorized = vocabulary.IsMemorized
+
+	result = g.Db.Save(&selected)
+	if result.Error != nil {
+		log.Printf("failed to update a selected record: %v", result.Error)
+		return 0, result.Error
+	} else {
+		return selected.ID, nil
+	}
+}
