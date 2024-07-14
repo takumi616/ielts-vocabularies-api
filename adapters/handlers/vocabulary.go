@@ -31,3 +31,7 @@ func (h *VocabHandler) AddNewVocabulary(w http.ResponseWriter, r *http.Request) 
 	vocabulary := dto.ToDomain(vocabReq)
 	h.VocabInputPort.AddNewVocabulary(ctx, vocabulary, w, nil)
 }
+
+func (h *VocabHandler) FetchVocabularyById(w http.ResponseWriter, r *http.Request) {
+	h.VocabInputPort.FetchVocabularyById(r.Context(), r.PathValue("id"), w)
+}

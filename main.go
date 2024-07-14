@@ -41,6 +41,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /vocabularies", vocabHandler.AddNewVocabulary)
+	mux.HandleFunc("GET /vocabularies/{id}", vocabHandler.FetchVocabularyById)
 
 	srv := &http.Server{
 		Addr:    ":" + os.Getenv("APP_CONTAINER_PORT"),

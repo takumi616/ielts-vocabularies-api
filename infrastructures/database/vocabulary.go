@@ -38,3 +38,21 @@ func (g *Gorm) InsertNewVocabulary(ctx context.Context, vocabDto dto.VocabDto) (
 
 	return vocabIdDto, nil
 }
+
+func (g *Gorm) SelectVocabularyById(ctx context.Context, vocabularyID uint) (dto.VocabDto, error) {
+	selected := Vocabulary{}
+	result := g.Db.First(&selected, vocabularyID)
+	vocabDto := dto.VocabDto{}
+	if result.Error != nil {
+		log.Printf("failed to select a vocabulary by ID: %v", result.Error)
+		return vocabDto, result.Error
+	}
+
+	vocabDto.Title = selected.Title
+	vocabDto.Definition = selected.Definition
+	vocabDto.Example = selected.Example
+	vocabDto.PartOfSpeech = selected.PartOfSpeech
+	vocabDto.IsMemorized = selected.IsMemorized
+
+	return vocabDto, nil
+}

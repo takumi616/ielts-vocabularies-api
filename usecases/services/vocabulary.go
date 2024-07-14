@@ -29,3 +29,14 @@ func (s *VocabService) AddNewVocabulary(ctx context.Context, vocab domains.Vocab
 	//Write http response
 	s.VocabOutputPort.WriteVocabIdResp(ctx, addedID, w)
 }
+
+func (s *VocabService) FetchVocabularyById(ctx context.Context, id string, w http.ResponseWriter) {
+	//Execute domain logic
+	vocab, err := s.Repo.FetchVocabularyById(ctx, id)
+	if err != nil {
+		s.ErrOutputPort.WriteErrResp(ctx, err, w, http.StatusInternalServerError)
+	}
+
+	//Write http response
+	s.VocabOutputPort.WriteVocabularyResp(ctx, vocab, w)
+}
