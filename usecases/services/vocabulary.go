@@ -18,12 +18,14 @@ func (s *VocabService) AddNewVocabulary(ctx context.Context, vocab *domains.Voca
 	//check if error is found in handlers
 	if err != nil {
 		s.ErrOutputPort.WriteErrResp(ctx, err, w, http.StatusBadRequest)
+		return
 	}
 
 	//Execute domain logic
 	addedID, err := s.Repo.AddNewVocabulary(ctx, vocab)
 	if err != nil {
 		s.ErrOutputPort.WriteErrResp(ctx, err, w, http.StatusInternalServerError)
+		return
 	}
 
 	//Write http response
