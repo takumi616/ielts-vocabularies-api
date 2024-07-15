@@ -37,6 +37,28 @@ func (g *Gorm) InsertNewVocabulary(ctx context.Context, vocabDto *dto.VocabDto) 
 	}
 }
 
+func (g *Gorm) SelectAllVocabularies(ctx context.Context) ([]*dto.VocabDto, error) {
+	var selected []Vocabulary
+	result := g.Db.Find(&selected)
+	if result.Error != nil {
+		log.Printf("failed to select all vocabularies: %v", result.Error)
+		return nil, result.Error
+	}
+
+	var vocabularies []*dto.VocabDto
+	for _, vocab := range selected {
+		vocabularies = append(vocabularies, &dto.VocabDto{
+			Title:        vocab.Title,
+			Definition:   vocab.Definition,
+			Example:      vocab.Example,
+			PartOfSpeech: vocab.PartOfSpeech,
+			IsMemorized:  vocab.IsMemorized,
+		})
+	}
+
+	return vocabularies, nil
+}
+
 func (g *Gorm) SelectVocabularyById(ctx context.Context, vocabularyID uint) (*dto.VocabDto, error) {
 	selected := Vocabulary{}
 	result := g.Db.First(&selected, vocabularyID)

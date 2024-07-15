@@ -31,6 +31,20 @@ func (p *VocabPresenter) WriteVocabIdResp(ctx context.Context, vocabID uint, w h
 	}
 }
 
+func (p *VocabPresenter) WriteVocabulariesResp(ctx context.Context, vocabs []*domains.Vocabulary, w http.ResponseWriter) {
+	//Write http response header
+	utils.CreateHeader(w, http.StatusOK)
+
+	var vocabularies []*dto.VocabDto
+	for _, vocab := range vocabs {
+		vocabularies = append(vocabularies, dto.FromDomain(vocab))
+	}
+
+	if err := json.NewEncoder(w).Encode(vocabularies); err != nil {
+		log.Printf("failed to write http response using response writer: %v", err)
+	}
+}
+
 func (p *VocabPresenter) WriteVocabularyResp(ctx context.Context, vocab *domains.Vocabulary, w http.ResponseWriter) {
 	//Write http response header
 	utils.CreateHeader(w, http.StatusOK)

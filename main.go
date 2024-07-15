@@ -41,6 +41,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /vocabularies", vocabHandler.AddNewVocabulary)
+	mux.HandleFunc("GET /vocabularies", vocabHandler.FetchAllVocabularies)
 	mux.HandleFunc("GET /vocabularies/{id}", vocabHandler.FetchVocabularyById)
 	mux.HandleFunc("PUT /vocabularies/{id}", vocabHandler.UpdateVocabularyById)
 	mux.HandleFunc("DELETE /vocabularies/{id}", vocabHandler.DeleteVocabularyById)
