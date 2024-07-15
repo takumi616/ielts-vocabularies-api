@@ -6,6 +6,7 @@ import (
 
 	"github.com/takumi616/ielts-vocabularies-api/adapters/dto"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type Vocabulary struct {
@@ -83,5 +84,16 @@ func (g *Gorm) UpdateVocabularyById(ctx context.Context, vocabularyID uint, voca
 		return 0, result.Error
 	} else {
 		return selected.ID, nil
+	}
+}
+
+func (g *Gorm) DeleteVocabularyById(ctx context.Context, vocabularyID uint) (uint, error) {
+	var deleted Vocabulary
+	result := g.Db.Clauses(clause.Returning{}).Where("ID = ?", vocabularyID).Delete(&deleted)
+	if result.Error != nil {
+		log.Printf("failed to delete a vocabulary by id: %v", result.Error)
+		return 0, result.Error
+	} else {
+		return deleted.ID, nil
 	}
 }
