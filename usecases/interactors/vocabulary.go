@@ -32,6 +32,16 @@ func (i *VocabInteractor) AddNewVocabulary(ctx context.Context, vocab *domains.V
 	i.VocabOutputPort.WriteVocabIdResp(ctx, addedID, w)
 }
 
+func (i *VocabInteractor) FetchAllVocabularies(ctx context.Context, w http.ResponseWriter) {
+	vocabs, err := i.Repo.FetchAllVocabularies(ctx)
+	if err != nil {
+		i.ErrOutputPort.WriteErrResp(ctx, err, w, http.StatusInternalServerError)
+		return
+	}
+
+	i.VocabOutputPort.WriteVocabulariesResp(ctx, vocabs, w)
+}
+
 func (i *VocabInteractor) FetchVocabularyById(ctx context.Context, id string, w http.ResponseWriter) {
 	//Execute domain logic
 	vocab, err := i.Repo.FetchVocabularyById(ctx, id)

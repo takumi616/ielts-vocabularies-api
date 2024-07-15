@@ -16,6 +16,7 @@ type VocabRepository struct {
 // implementation is in infrastructure database layer
 type VocabPersistence interface {
 	InsertNewVocabulary(ctx context.Context, vocabDto *dto.VocabDto) (uint, error)
+	SelectAllVocabularies(ctx context.Context) ([]*dto.VocabDto, error)
 	SelectVocabularyById(ctx context.Context, vocabularyID uint) (*dto.VocabDto, error)
 	UpdateVocabularyById(ctx context.Context, vocabularyID uint, vocabDto *dto.VocabDto) (uint, error)
 	DeleteVocabularyById(ctx context.Context, vocabularyID uint) (uint, error)
@@ -30,6 +31,20 @@ func (r *VocabRepository) AddNewVocabulary(ctx context.Context, vocabulary *doma
 	} else {
 		return insertedID, nil
 	}
+}
+
+func (r *VocabRepository) FetchAllVocabularies(ctx context.Context) ([]*domains.Vocabulary, error) {
+	selected, err := r.Persistence.SelectAllVocabularies(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var vocabularies []*domains.Vocabulary
+	for _, vocabDto := range selected {
+		vocabularies = append(vocabularies, dto.ToDomain(vocabDto))
+	}
+
+	return vocabularies, nil
 }
 
 func (r *VocabRepository) FetchVocabularyById(ctx context.Context, id string) (*domains.Vocabulary, error) {

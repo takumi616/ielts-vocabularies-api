@@ -32,6 +32,10 @@ func (h *VocabHandler) AddNewVocabulary(w http.ResponseWriter, r *http.Request) 
 	h.VocabInputPort.AddNewVocabulary(ctx, vocabulary, w, nil)
 }
 
+func (h *VocabHandler) FetchAllVocabularies(w http.ResponseWriter, r *http.Request) {
+	h.VocabInputPort.FetchAllVocabularies(r.Context(), w)
+}
+
 func (h *VocabHandler) FetchVocabularyById(w http.ResponseWriter, r *http.Request) {
 	//Call interactor's method through inputport interface
 	h.VocabInputPort.FetchVocabularyById(r.Context(), r.PathValue("id"), w)
