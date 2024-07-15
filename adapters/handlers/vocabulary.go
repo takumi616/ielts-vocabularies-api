@@ -27,13 +27,13 @@ func (h *VocabHandler) AddNewVocabulary(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	//Call services's method through inputport interface
+	//Call interactor's method through inputport interface
 	vocabulary := dto.ToDomain(&vocabReq)
 	h.VocabInputPort.AddNewVocabulary(ctx, vocabulary, w, nil)
 }
 
 func (h *VocabHandler) FetchVocabularyById(w http.ResponseWriter, r *http.Request) {
-	//Call services's method through inputport interface
+	//Call interactor's method through inputport interface
 	h.VocabInputPort.FetchVocabularyById(r.Context(), r.PathValue("id"), w)
 }
 
@@ -52,7 +52,12 @@ func (h *VocabHandler) UpdateVocabularyById(w http.ResponseWriter, r *http.Reque
 
 	id = r.PathValue("id")
 
-	//Call services's method through inputport interface
+	//Call interactor's method through inputport interface
 	vocabulary := dto.ToDomain(&vocabReq)
 	h.VocabInputPort.UpdateVocabularyById(ctx, id, vocabulary, w, nil)
+}
+
+func (h *VocabHandler) DeleteVocabularyById(w http.ResponseWriter, r *http.Request) {
+	//Call interactor's method through inputport interface
+	h.VocabInputPort.DeleteVocabularyById(r.Context(), r.PathValue("id"), w)
 }

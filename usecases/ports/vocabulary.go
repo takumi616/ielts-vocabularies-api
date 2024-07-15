@@ -11,6 +11,7 @@ type VocabInputPort interface {
 	AddNewVocabulary(ctx context.Context, vocab *domains.Vocabulary, w http.ResponseWriter, err error)
 	FetchVocabularyById(ctx context.Context, id string, w http.ResponseWriter)
 	UpdateVocabularyById(ctx context.Context, id string, vocab *domains.Vocabulary, w http.ResponseWriter, err error)
+	DeleteVocabularyById(ctx context.Context, id string, w http.ResponseWriter)
 }
 
 type VocabOutputPort interface {

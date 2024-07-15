@@ -11,7 +11,7 @@ import (
 	"github.com/takumi616/ielts-vocabularies-api/adapters/repositories"
 	"github.com/takumi616/ielts-vocabularies-api/infrastructures"
 	"github.com/takumi616/ielts-vocabularies-api/infrastructures/database"
-	"github.com/takumi616/ielts-vocabularies-api/usecases/services"
+	"github.com/takumi616/ielts-vocabularies-api/usecases/interactors"
 )
 
 func main() {
@@ -33,16 +33,17 @@ func main() {
 	vocabPresenter := &presenters.VocabPresenter{}
 	errPresenter := &presenters.ErrPresenter{}
 
-	//Initialize service with repository and presenter
-	vocabService := &services.VocabService{Repo: vocabRepository, VocabOutputPort: vocabPresenter, ErrOutputPort: errPresenter}
+	//Initialize interactor with repository and presenter
+	vocabInteractor := &interactors.VocabInteractor{Repo: vocabRepository, VocabOutputPort: vocabPresenter, ErrOutputPort: errPresenter}
 
 	//Initialize handler with service
-	vocabHandler := &handlers.VocabHandler{VocabInputPort: vocabService}
+	vocabHandler := &handlers.VocabHandler{VocabInputPort: vocabInteractor}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /vocabularies", vocabHandler.AddNewVocabulary)
 	mux.HandleFunc("GET /vocabularies/{id}", vocabHandler.FetchVocabularyById)
 	mux.HandleFunc("PUT /vocabularies/{id}", vocabHandler.UpdateVocabularyById)
+	mux.HandleFunc("DELETE /vocabularies/{id}", vocabHandler.DeleteVocabularyById)
 
 	srv := &http.Server{
 		Addr:    ":" + os.Getenv("APP_CONTAINER_PORT"),

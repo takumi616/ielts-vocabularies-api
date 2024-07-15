@@ -18,6 +18,7 @@ type VocabPersistence interface {
 	InsertNewVocabulary(ctx context.Context, vocabDto *dto.VocabDto) (uint, error)
 	SelectVocabularyById(ctx context.Context, vocabularyID uint) (*dto.VocabDto, error)
 	UpdateVocabularyById(ctx context.Context, vocabularyID uint, vocabDto *dto.VocabDto) (uint, error)
+	DeleteVocabularyById(ctx context.Context, vocabularyID uint) (uint, error)
 }
 
 func (r *VocabRepository) AddNewVocabulary(ctx context.Context, vocabulary *domains.Vocabulary) (uint, error) {
@@ -32,7 +33,6 @@ func (r *VocabRepository) AddNewVocabulary(ctx context.Context, vocabulary *doma
 }
 
 func (r *VocabRepository) FetchVocabularyById(ctx context.Context, id string) (*domains.Vocabulary, error) {
-	//Get path value
 	vocabularyID, err := strconv.Atoi(id)
 	if err != nil {
 		log.Fatalf("failed to convert string id into int type: %v", err)
@@ -46,7 +46,7 @@ func (r *VocabRepository) FetchVocabularyById(ctx context.Context, id string) (*
 	return dto.ToDomain(selected), nil
 }
 
-func (r VocabRepository) UpdateVocabularyById(ctx context.Context, id string, vocabulary *domains.Vocabulary) (uint, error) {
+func (r *VocabRepository) UpdateVocabularyById(ctx context.Context, id string, vocabulary *domains.Vocabulary) (uint, error) {
 	vocabularyID, err := strconv.Atoi(id)
 	if err != nil {
 		log.Fatalf("failed to convert string id into int type: %v", err)
@@ -57,5 +57,19 @@ func (r VocabRepository) UpdateVocabularyById(ctx context.Context, id string, vo
 		return 0, err
 	} else {
 		return updatedID, nil
+	}
+}
+
+func (r *VocabRepository) DeleteVocabularyById(ctx context.Context, id string) (uint, error) {
+	vocabularyID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Fatalf("failed to convert string id into int type: %v", err)
+	}
+
+	deletedID, err := r.Persistence.DeleteVocabularyById(ctx, uint(vocabularyID))
+	if err != nil {
+		return 0, err
+	} else {
+		return deletedID, nil
 	}
 }
