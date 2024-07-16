@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"net/http"
-	"os"
 
 	"github.com/takumi616/ielts-vocabularies-api/adapters/handlers"
 	"github.com/takumi616/ielts-vocabularies-api/adapters/presenters"
@@ -14,9 +12,7 @@ import (
 	"github.com/takumi616/ielts-vocabularies-api/usecases/interactors"
 )
 
-func main() {
-	ctx := context.Background()
-
+func run(ctx context.Context) error {
 	//Get config
 	config, _ := infrastructures.NewConfig()
 
@@ -39,17 +35,15 @@ func main() {
 	//Initialize handler with service
 	vocabHandler := &handlers.VocabHandler{VocabInputPort: vocabInteractor}
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("POST /vocabularies", vocabHandler.AddNewVocabulary)
-	mux.HandleFunc("GET /vocabularies", vocabHandler.FetchAllVocabularies)
-	mux.HandleFunc("GET /vocabularies/{id}", vocabHandler.FetchVocabularyById)
-	mux.HandleFunc("PUT /vocabularies/{id}", vocabHandler.UpdateVocabularyById)
-	mux.HandleFunc("DELETE /vocabularies/{id}", vocabHandler.DeleteVocabularyById)
+	router := infrastructures.Router{VocabHandler: vocabHandler}
+	mux := router.Setup()
 
-	srv := &http.Server{
-		Addr:    ":" + os.Getenv("APP_CONTAINER_PORT"),
-		Handler: mux,
+	server := infrastructures.HttpServer{Port: config.AppPort, ServeMux: mux}
+	return server.Run(ctx)
+}
+
+func main() {
+	if err := run(context.Background()); err != nil {
+		log.Fatalf("Golang server does not work correctly: %v", err)
 	}
-
-	log.Fatal(srv.ListenAndServe())
 }
