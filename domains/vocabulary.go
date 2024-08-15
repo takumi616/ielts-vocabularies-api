@@ -3,7 +3,6 @@ package domains
 import "context"
 
 type Vocabulary struct {
-	VocabularyID uint
 	Title        string
 	Definition   string
 	Example      string

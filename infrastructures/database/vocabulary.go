@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/takumi616/ielts-vocabularies-api/adapters/dto"
+	"github.com/takumi616/go-restapi/adapters/dto"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
