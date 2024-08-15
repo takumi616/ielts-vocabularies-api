@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/takumi616/ielts-vocabularies-api/domains"
+	"github.com/takumi616/go-restapi/domains"
 )
 
 type VocabInputPort interface {

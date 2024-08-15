@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/takumi616/ielts-vocabularies-api/adapters/dto"
-	"github.com/takumi616/ielts-vocabularies-api/adapters/presenters/utils"
+	"github.com/takumi616/go-restapi/adapters/dto"
+	"github.com/takumi616/go-restapi/adapters/presenters/utils"
 )
 
 type ErrPresenter struct {

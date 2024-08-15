@@ -3,7 +3,7 @@ package infrastructures
 import (
 	"net/http"
 
-	"github.com/takumi616/ielts-vocabularies-api/adapters/handlers"
+	"github.com/takumi616/go-restapi/adapters/handlers"
 )
 
 type Router struct {

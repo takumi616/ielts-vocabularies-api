@@ -1,2 +1,2 @@
-# ielts-vocabularies-api
-Rest API managing English vocabularies for IELTS.
+# go-restapi
+Rest API sample managing English vocabularies.

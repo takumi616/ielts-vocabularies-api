@@ -5,8 +5,8 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/takumi616/ielts-vocabularies-api/adapters/dto"
-	"github.com/takumi616/ielts-vocabularies-api/domains"
+	"github.com/takumi616/go-restapi/adapters/dto"
+	"github.com/takumi616/go-restapi/domains"
 )
 
 type VocabRepository struct {

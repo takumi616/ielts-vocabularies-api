@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/takumi616/ielts-vocabularies-api/adapters/dto"
-	"github.com/takumi616/ielts-vocabularies-api/domains"
-	"github.com/takumi616/ielts-vocabularies-api/usecases/ports"
+	"github.com/takumi616/go-restapi/adapters/dto"
+	"github.com/takumi616/go-restapi/domains"
+	"github.com/takumi616/go-restapi/usecases/ports"
 )
 
 type VocabHandler struct {

@@ -1,6 +1,6 @@
 package dto
 
-import "github.com/takumi616/ielts-vocabularies-api/domains"
+import "github.com/takumi616/go-restapi/domains"
 
 type VocabDto struct {
 	Title        string `json:"title"`

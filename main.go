@@ -4,12 +4,12 @@ import (
 	"context"
 	"log"
 
-	"github.com/takumi616/ielts-vocabularies-api/adapters/handlers"
-	"github.com/takumi616/ielts-vocabularies-api/adapters/presenters"
-	"github.com/takumi616/ielts-vocabularies-api/adapters/repositories"
-	"github.com/takumi616/ielts-vocabularies-api/infrastructures"
-	"github.com/takumi616/ielts-vocabularies-api/infrastructures/database"
-	"github.com/takumi616/ielts-vocabularies-api/usecases/interactors"
+	"github.com/takumi616/go-restapi/adapters/handlers"
+	"github.com/takumi616/go-restapi/adapters/presenters"
+	"github.com/takumi616/go-restapi/adapters/repositories"
+	"github.com/takumi616/go-restapi/infrastructures"
+	"github.com/takumi616/go-restapi/infrastructures/database"
+	"github.com/takumi616/go-restapi/usecases/interactors"
 )
 
 func run(ctx context.Context) error {
@@ -19,7 +19,7 @@ func run(ctx context.Context) error {
 	//Initialize postgres db with Gorm
 	gorm, err := database.Open(ctx, config.PgConfig)
 	if err != nil {
-		log.Fatal("failed to open db: %v", err)
+		log.Fatalf("failed to open db: %v", err)
 	}
 
 	//Initialize repository

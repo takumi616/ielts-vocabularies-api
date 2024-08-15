@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/takumi616/ielts-vocabularies-api/infrastructures"
+	"github.com/takumi616/go-restapi/infrastructures"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
